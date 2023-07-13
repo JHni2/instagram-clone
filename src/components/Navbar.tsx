@@ -1,13 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import HomeFillIcon from './ui/icons/HomeFillIcon';
-import HomeIcon from './ui/icons/HomeIcon';
-import PlusSquareFillIcon from './ui/icons/PlusSquareFillIcon';
-import PlusSquareIcon from './ui/icons/PlusSquareIcon';
-import SearchFillIcon from './ui/icons/SearchFillIcon';
-import SearchIcon from './ui/icons/SearchIcon';
+import { HomeFillIcon, HomeIcon, PlusSquareFillIcon, PlusSquareIcon, SearchFillIcon, SearchIcon } from './ui/icons';
 import { usePathname } from 'next/navigation';
+import ColorButton from './ui/ColorButton';
 
 const menu = [
   {
@@ -31,17 +27,18 @@ export default function Navbar() {
   const pathName = usePathname();
 
   return (
-    <div>
+    <div className="flex justify-between items-center px-6">
       <Link href="/">
-        <h1>Instagram</h1>
+        <h1 className="text-3xl font-bold">Instagram</h1>
       </Link>
       <nav>
-        <ul>
+        <ul className="flex gap-4 items-center p-4">
           {menu.map((item) => (
             <li key={item.href}>
               <Link href={item.href}>{pathName === item.href ? item.clickedIcon : item.icon}</Link>
             </li>
           ))}
+          <ColorButton text="Sign in" onClick={() => {}} />
         </ul>
       </nav>
     </div>
