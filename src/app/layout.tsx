@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <header className="sticky top-0 bg-white z-10 border-b">
             <Navbar />
           </header>
-          <main>
+          <main className="w-full flex justify-center bg-neutral-50 min-h-full">
             <SWRConfigContext>{children}</SWRConfigContext>
           </main>
         </AuthContext>
