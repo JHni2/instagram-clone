@@ -1,3 +1,3 @@
 export default function FollowingBar() {
-  return <div></div>;
+  return <div>FollwingBar</div>;
 }
