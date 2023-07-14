@@ -9,8 +9,6 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
   const user = session?.user;
 
-  console.log(session, user);
-
   if (!user) {
     redirect('/auth/signin');
   }
