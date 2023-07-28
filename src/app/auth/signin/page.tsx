@@ -1,9 +1,14 @@
-import type { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
-import { getProviders, signIn } from 'next-auth/react';
+import { getProviders } from 'next-auth/react';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { redirect } from 'next/navigation';
 import Signin from '@/components/Signin';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Signin',
+  description: 'Signup or Login to Instagram-clone',
+};
 
 type Props = {
   searchParams: {
