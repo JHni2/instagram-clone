@@ -76,3 +76,27 @@ export async function getSavedPostsOf(username: string) {
 function mapPosts(posts: SimplePost[]) {
   return posts.map((post: SimplePost) => ({ ...post, image: urlFor(post.image) }));
 }
+
+export async function likePost(postId: string, userId: string) {
+  return (
+    client
+      .patch(postId) // patch할 data
+      .setIfMissing({ likes: [] }) // likes가 없다면 []로 설정
+      // likes가 있으면 append
+      .append('likes', [
+        // likes 배열에 배열 추가하기
+        {
+          _ref: userId, // 추가하고자 하는 객체의 ref
+          _type: 'reference', // 추가하고자 하는 객체의 type
+        },
+      ])
+      .commit({ autoGenerateArrayKeys: true })
+  ); // 다 되면 commit
+}
+
+export async function dislikePost(postId: string, userId: string) {
+  return client
+    .patch(postId)
+    .unset([`likes[_ref=="${userId}"]`])
+    .commit();
+}
