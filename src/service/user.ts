@@ -68,3 +68,27 @@ export async function getUserForProfile(username: string) {
     )
     .then((user) => ({ ...user, following: user.following ?? 0, followers: user.followers ?? 0, posts: user.posts ?? 0 }));
 }
+
+export async function addBookmark(postId: string, userId: string) {
+  return (
+    client
+      .patch(userId) // patch할 data
+      .setIfMissing({ bookmarks: [] }) // bookmarks가 없다면 []로 설정
+      // bookmarks가 있으면 append
+      .append('bookmarks', [
+        // bookmarks 배열에 배열 추가하기
+        {
+          _ref: postId, // 추가하고자 하는 객체의 ref
+          _type: 'reference', // 추가하고자 하는 객체의 type
+        },
+      ])
+      .commit({ autoGenerateArrayKeys: true })
+  ); // 다 되면 commit
+}
+
+export async function removeBookmark(postId: string, userId: string) {
+  return client
+    .patch(userId)
+    .unset([`bookmarks[_ref=="${postId}"]`])
+    .commit();
+}
