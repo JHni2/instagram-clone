@@ -100,3 +100,20 @@ export async function dislikePost(postId: string, userId: string) {
     .unset([`likes[_ref=="${userId}"]`])
     .commit();
 }
+
+export async function addComment(postId: string, userId: string, comment: string) {
+  return (
+    client
+      .patch(postId) // patch할 data
+      .setIfMissing({ comments: [] }) // comments가 없다면 []로 설정
+      // comments가 있으면 append
+      .append('comments', [
+        // likes 배열에 배열 추가하기
+        {
+          comment,
+          author: { _ref: userId, _type: 'reference' },
+        },
+      ])
+      .commit({ autoGenerateArrayKeys: true })
+  ); // 다 되면 commit
+}
