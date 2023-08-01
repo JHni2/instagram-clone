@@ -12,7 +12,7 @@ export async function PUT(req: NextRequest) {
   }
 
   const { id, bookmark } = await req.json();
-  if (!id || !bookmark === undefined) {
+  if (!id || bookmark === undefined) {
     return new Response('Bad Request', { status: 400 });
   }
 

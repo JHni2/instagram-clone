@@ -69,7 +69,7 @@ export async function getUserForProfile(username: string) {
     .then((user) => ({ ...user, following: user.following ?? 0, followers: user.followers ?? 0, posts: user.posts ?? 0 }));
 }
 
-export async function addBookmark(postId: string, userId: string) {
+export async function addBookmark(userId: string, postId: string) {
   return (
     client
       .patch(userId) // patch할 data
@@ -86,7 +86,7 @@ export async function addBookmark(postId: string, userId: string) {
   ); // 다 되면 commit
 }
 
-export async function removeBookmark(postId: string, userId: string) {
+export async function removeBookmark(userId: string, postId: string) {
   return client
     .patch(userId)
     .unset([`bookmarks[_ref=="${postId}"]`])
