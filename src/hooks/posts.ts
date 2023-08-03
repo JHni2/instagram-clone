@@ -1,4 +1,4 @@
-import { SimplePost } from '@/model/post';
+import { Comment, SimplePost } from '@/model/post';
 import useSWR from 'swr';
 
 async function updateLike(id: string, like: boolean) {
@@ -30,11 +30,11 @@ export default function usePosts() {
     });
   };
 
-  const postComment = (post: SimplePost, comment: string) => {
+  const postComment = (post: SimplePost, comment: Comment) => {
     const newPost = { ...post, comments: post.comments + 1 };
     const newPosts = posts?.map((p) => (p.id === post.id ? newPost : p));
 
-    return mutate(addComment(post.id, comment), {
+    return mutate(addComment(post.id, comment.comment), {
       optimisticData: newPosts, // 로컬 상에 있는 캐시를 이용해 UI를 업데이트하기
       populateCache: false, // 반환된 값을 기존 post 데이터에 덮어 쓰지 X
       revalidate: false, // newPosts 배열이 있기 때문에 backend에서 다시 받아올 필요 X
