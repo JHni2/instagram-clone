@@ -1,3 +1,4 @@
+import { useCachKeys } from '@/context/CacheKeysContext';
 import { Comment, SimplePost } from '@/model/post';
 import { useCallback } from 'react';
 import useSWR from 'swr';
@@ -17,7 +18,8 @@ async function addComment(id: string, comment: string) {
 }
 
 export default function usePosts() {
-  const { data: posts, isLoading, error, mutate } = useSWR<SimplePost[]>('/api/posts');
+  const cacheKeys = useCachKeys();
+  const { data: posts, isLoading, error, mutate } = useSWR<SimplePost[]>(cacheKeys.postsKey);
 
   // useCallback을 사용해서 posts, mutate가 변경될 때마다 새 함수를 만들어 setLike 할당하기
   const setLike = useCallback(
