@@ -108,7 +108,7 @@ export async function follow(myId: string, targetId: string) {
       (user) =>
         user
           .setIfMissing({ followers: [] }) // followers 비어있다면 []로 세팅
-          .append('followers', [{ _ref: targetId, _type: 'reference' }]) // followers 배열에 객체 추가하기
+          .append('followers', [{ _ref: myId, _type: 'reference' }]) // followers 배열에 객체 추가하기
     )
     .commit({ autoGenerateArrayKeys: true });
 }
