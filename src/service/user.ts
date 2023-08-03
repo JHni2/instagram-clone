@@ -92,3 +92,37 @@ export async function removeBookmark(userId: string, postId: string) {
     .unset([`bookmarks[_ref=="${postId}"]`])
     .commit();
 }
+
+export async function follow(myId: string, targetId: string) {
+  return client
+    .transaction()
+    .patch(
+      myId,
+      (user) =>
+        user
+          .setIfMissing({ following: [] }) // following이 비어있다면 []로 세팅
+          .append('following', [{ _ref: targetId, _type: 'reference' }]) // following 배열에 객체 추가하기
+    )
+    .patch(
+      targetId,
+      (user) =>
+        user
+          .setIfMissing({ followers: [] }) // followers 비어있다면 []로 세팅
+          .append('followers', [{ _ref: targetId, _type: 'reference' }]) // followers 배열에 객체 추가하기
+    )
+    .commit({ autoGenerateArrayKeys: true });
+}
+
+export async function unfollow(myId: string, targetId: string) {
+  return client
+    .transaction()
+    .patch(
+      myId,
+      (user) => user.unset([`following[_ref=="${targetId}"]`]) // following 배열에 객체 삭제하기
+    )
+    .patch(
+      targetId,
+      (user) => user.unset([`followers[_ref=="${myId}"]`]) // followers 배열에 객체 삭제하기
+    )
+    .commit({ autoGenerateArrayKeys: true });
+}
