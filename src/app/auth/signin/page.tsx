@@ -25,8 +25,6 @@ export default async function SigninPage({ searchParams: { callbackUrl } }: Prop
 
   const providers = (await getProviders()) ?? {};
 
-  console.log(session, providers);
-
   return (
     <section className="flex justify-center mt-24">
       <Signin providers={providers} callbackUrl={callbackUrl ?? '/'} />
