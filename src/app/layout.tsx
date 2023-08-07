@@ -10,7 +10,7 @@ const openSans = Open_Sans({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: {
     default: 'Instagram-clone',
-    template: 'Instagram-clone, | %s',
+    template: 'Instagram-clone | %s',
   },
   description: 'Instagram-clone Photos',
 };
